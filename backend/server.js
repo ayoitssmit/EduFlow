@@ -6,6 +6,7 @@ const connectDB = require('./config/db');
 // Route files
 const authRoutes = require('./routes/authRoutes');
 const courseRoutes = require('./routes/courseRoutes');
+const enrollRoutes = require('./routes/enrollRoutes');
 
 // Load env vars
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(express.json());
 // Mount routers
 app.use('/api', authRoutes);
 app.use('/api', courseRoutes);
+app.use('/api', enrollRoutes);
 
 const PORT = process.env.PORT || 5000;
 

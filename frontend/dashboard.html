@@ -18,8 +18,8 @@
             <div class="user-profile">
                 <div class="avatar"><i class="fas fa-user"></i></div>
                 <div class="user-info">
-                    <h4>John Doe</h4>
-                    <p>Computer Science</p>
+                    <h4 id="dashboard-user-name">John Doe</h4>
+                    <p id="dashboard-user-major">Computer Science</p>
                 </div>
             </div>
             <nav class="sidebar-nav">
@@ -32,7 +32,7 @@
                 </ul>
             </nav>
             <div class="sidebar-footer">
-                <a href="index.html" class="btn btn-outline btn-block"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                <button onclick="logout()" class="btn btn-outline btn-block"><i class="fas fa-sign-out-alt"></i> Log Out</button>
             </div>
         </aside>
 
@@ -54,7 +54,7 @@
 
             <div class="dashboard-content">
                 <div class="dashboard-header">
-                    <h2>Welcome back, John!</h2>
+                    <h2 id="dashboard-welcome">Welcome back!</h2>
                     <p>Here's an overview of your academic status for Fall 2026.</p>
                 </div>
 
@@ -62,21 +62,21 @@
                     <div class="stat-card glass-card">
                         <div class="stat-icon bg-indigo-light text-indigo"><i class="fas fa-book-reader"></i></div>
                         <div class="stat-info">
-                            <h3>14</h3>
+                            <h3 id="stat-credits">0</h3>
                             <p>Enrolled Credits</p>
                         </div>
                     </div>
                     <div class="stat-card glass-card">
                         <div class="stat-icon bg-success-light text-success"><i class="fas fa-check-circle"></i></div>
                         <div class="stat-info">
-                            <h3>5</h3>
+                            <h3 id="stat-courses">0</h3>
                             <p>Courses Enrolled</p>
                         </div>
                     </div>
                     <div class="stat-card glass-card">
                         <div class="stat-icon bg-warning-light text-warning"><i class="fas fa-clock"></i></div>
                         <div class="stat-info">
-                            <h3>1</h3>
+                            <h3>0</h3>
                             <p>Waitlisted</p>
                         </div>
                     </div>
@@ -99,37 +99,8 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span class="badge badge-indigo">CS101</span></td>
-                                    <td>Intro to Computer Science</td>
-                                    <td>3</td>
-                                    <td>Dr. Alan Turing</td>
-                                    <td>MWF 10:00 AM</td>
-                                    <td>
-                                        <button class="btn btn-outline btn-sm text-danger border-danger"><i class="fas fa-times"></i> Drop</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-indigo">CS202</span></td>
-                                    <td>Data Structures</td>
-                                    <td>4</td>
-                                    <td>Dr. Grace Hopper</td>
-                                    <td>TTh 1:00 PM</td>
-                                    <td>
-                                        <button class="btn btn-outline btn-sm text-danger border-danger"><i class="fas fa-times"></i> Drop</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-cyan">MATH210</span></td>
-                                    <td>Calculus II</td>
-                                    <td>3</td>
-                                    <td>Prof. Leonhard</td>
-                                    <td>MW 2:00 PM</td>
-                                    <td>
-                                        <button class="btn btn-outline btn-sm text-danger border-danger"><i class="fas fa-times"></i> Drop</button>
-                                    </td>
-                                </tr>
+                            <tbody id="enrolled-courses-tbody">
+                                <!-- Dynamic rows rendered by dashboard.js -->
                             </tbody>
                         </table>
                     </div>
@@ -144,5 +115,7 @@
             document.querySelector('.sidebar').classList.toggle('active');
         });
     </script>
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>

@@ -52,6 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await window.API.post('/api/login', { email, password });
                 
                 if (response.success) {
+                    // Store JWT
+                    localStorage.setItem('token', response.token);
+                    localStorage.setItem('user', JSON.stringify(response.user));
+
                     showMessage('Login Success! Redirecting...', 'success', loginForm);
                     // Simulate redirect
                     setTimeout(() => window.location.href = 'dashboard.html', 1500);

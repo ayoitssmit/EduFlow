@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 // @route   POST /api/register
@@ -35,12 +36,19 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Invalid Credentials' });
         }
 
-        // Extremely basic password check since this is a frontend/DOM API focus project (in reality use bcrypt)
         if (password !== user.password) {
             return res.status(400).json({ success: false, message: 'Invalid Credentials' });
         }
 
-        res.json({ success: true, token: 'mock-jwt-token-123', user: { name: `${user.firstName} ${user.lastName}`, email: user.email } });
+        const payload = {
+            user: { id: user.id }
+        };
+
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '5h' }, (err, token) => {
+            if (err) throw err;
+            res.json({ success: true, token, user: { name: `${user.firstName} ${user.lastName}`, email: user.email, major: user.major } });
+        });
+
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ success: false, message: 'Server error during login.' });

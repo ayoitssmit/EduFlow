@@ -9,6 +9,15 @@ const API_BASE_URL = 'http://localhost:5000';
  */
 async function apiCall(endpoint, options = {}) {
     try {
+        // Automatically inject token if available
+        const token = localStorage.getItem('token');
+        if (token) {
+            options.headers = {
+                ...options.headers,
+                'Authorization': `Bearer ${token}`
+            };
+        }
+
         const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
         
         // Parse the JSON data
@@ -34,5 +43,6 @@ window.API = {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    })
+    }),
+    delete: (endpoint) => apiCall(endpoint, { method: 'DELETE' })
 };
