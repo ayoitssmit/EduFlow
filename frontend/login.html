@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | EduFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray">
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo"><i class="fas fa-graduation-cap"></i> EduFlow</a>
+            <button class="mobile-toggle" id="mobile-toggle"><i class="fas fa-bars"></i></button>
+            <nav class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="courses.html" class="nav-link">Courses</a></li>
+                    <li class="nav-item"><a href="login.html" class="btn btn-outline">Log In</a></li>
+                    <li class="nav-item"><a href="register.html" class="btn btn-primary">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="form-page">
+        <div class="container form-container">
+            <div class="form-card glass-card login-card">
+                <div class="form-header">
+                    <h2>Welcome Back</h2>
+                    <p>Log in to access your dashboard and courses.</p>
+                </div>
+                <form id="login-form" class="custom-form">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" placeholder="john.doe@student.eduflow.edu" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="remember">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-password text-indigo font-medium">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">Log In</button>
+                    <!-- Simulated login redirect for Phase 1 -->
+                    <p style="text-align:center; margin-top:1rem; font-size:rem; color:var(--text-muted);">
+                        <em>(Phase 1: <a href="dashboard.html" class="text-indigo">Go to Dashboard</a> directly)</em>
+                    </p>
+                </form>
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="register.html" class="text-indigo font-medium">Register here</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="js/main.js"></script>
+</body>
+</html>

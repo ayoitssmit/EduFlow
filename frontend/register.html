@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | EduFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray">
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo"><i class="fas fa-graduation-cap"></i> EduFlow</a>
+            <button class="mobile-toggle" id="mobile-toggle"><i class="fas fa-bars"></i></button>
+            <nav class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="courses.html" class="nav-link">Courses</a></li>
+                    <li class="nav-item"><a href="login.html" class="btn btn-outline">Log In</a></li>
+                    <li class="nav-item"><a href="register.html" class="btn btn-primary">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="form-page">
+        <div class="container form-container">
+            <div class="form-card glass-card">
+                <div class="form-header">
+                    <h2>Create an Account</h2>
+                    <p>Join EduFlow to start managing your courses.</p>
+                </div>
+                <form id="register-form" class="custom-form">
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                        </div>
+                        <div class="col">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="john.doe@student.eduflow.edu" required>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                        </div>
+                        <div class="col">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="major">Intended Major</label>
+                        <select id="major" name="major" required>
+                            <option value="">Select your major...</option>
+                            <option value="CS">Computer Science</option>
+                            <option value="ENG">Engineering</option>
+                            <option value="BUS">Business</option>
+                            <option value="ART">Arts & Humanities</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">Register</button>
+                </form>
+                <div class="form-footer">
+                    <p>Already have an account? <a href="login.html" class="text-indigo font-medium">Log in here</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="js/main.js"></script>
+</body>
+</html>

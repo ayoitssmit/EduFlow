@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses | EduFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray">
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo"><i class="fas fa-graduation-cap"></i> EduFlow</a>
+            <button class="mobile-toggle" id="mobile-toggle"><i class="fas fa-bars"></i></button>
+            <nav class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="courses.html" class="nav-link active">Courses</a></li>
+                    <li class="nav-item"><a href="login.html" class="btn btn-outline">Log In</a></li>
+                    <li class="nav-item"><a href="register.html" class="btn btn-primary">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="page-header bg-gradient text-white">
+            <div class="container">
+                <h1>Available Courses</h1>
+                <p>Browse and explore the courses offered for the upcoming semester.</p>
+            </div>
+        </div>
+        
+        <div class="container courses-container">
+            <aside class="filters-sidebar">
+                <div class="glass-card pd-4">
+                    <h3>Filters</h3>
+                    <div class="form-group mt-4">
+                        <label>Search</label>
+                        <input type="text" placeholder="Search by title or code...">
+                    </div>
+                    <div class="form-group">
+                        <label>Department</label>
+                        <select>
+                            <option value="">All Departments</option>
+                            <option value="CS">Computer Science</option>
+                            <option value="ENG">Engineering</option>
+                            <option value="MATH">Mathematics</option>
+                            <option value="PHY">Physics</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Level</label>
+                        <select>
+                            <option value="">All Levels</option>
+                            <option value="100">100 - Freshman</option>
+                            <option value="200">200 - Sophomore</option>
+                            <option value="300">300 - Junior</option>
+                            <option value="400">400 - Senior</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-outline btn-block mt-4">Apply Filters</button>
+                </div>
+            </aside>
+            
+            <section class="courses-list">
+                <div class="courses-grid">
+                    <!-- Course Card 1 -->
+                    <div class="course-card glass-card">
+                        <div class="course-header">
+                            <span class="course-code badge">CS101</span>
+                            <span class="course-credits">3 Credits</span>
+                        </div>
+                        <h3 class="course-title">Introduction to Computer Science</h3>
+                        <p class="course-desc">Fundamental concepts of programming and computer architecture.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user-tie"></i> Dr. Alan Turing</span>
+                            <span><i class="fas fa-clock"></i> MWF 10:00 AM</span>
+                        </div>
+                        <div class="course-footer">
+                            <span class="seats text-success">45/50 Seats Available</span>
+                            <a href="login.html" class="btn btn-primary btn-sm">Enroll</a>
+                        </div>
+                    </div>
+                    <!-- Course Card 2 -->
+                    <div class="course-card glass-card">
+                        <div class="course-header">
+                            <span class="course-code badge">CS202</span>
+                            <span class="course-credits">4 Credits</span>
+                        </div>
+                        <h3 class="course-title">Data Structures and Algorithms</h3>
+                        <p class="course-desc">In-depth study of data storage mechanisms and algorithmic efficiency.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user-tie"></i> Dr. Grace Hopper</span>
+                            <span><i class="fas fa-clock"></i> TTh 1:00 PM</span>
+                        </div>
+                        <div class="course-footer">
+                            <span class="seats text-warning">2/40 Seats Available</span>
+                            <a href="login.html" class="btn btn-primary btn-sm">Enroll</a>
+                        </div>
+                    </div>
+                    <!-- Course Card 3 -->
+                    <div class="course-card glass-card">
+                        <div class="course-header">
+                            <span class="course-code badge">MATH210</span>
+                            <span class="course-credits">3 Credits</span>
+                        </div>
+                        <h3 class="course-title">Calculus II</h3>
+                        <p class="course-desc">Advanced calculus covering integration techniques and infinite series.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user-tie"></i> Prof. Leonhard</span>
+                            <span><i class="fas fa-clock"></i> MW 2:00 PM</span>
+                        </div>
+                        <div class="course-footer">
+                            <span class="seats text-danger">Waitlist</span>
+                            <a href="login.html" class="btn btn-outline btn-sm">Join Waitlist</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
