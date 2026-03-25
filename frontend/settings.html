@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | EduFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .settings-tabs { display:flex; gap:0.5rem; margin-bottom:1.5rem; border-bottom:2px solid var(--border); padding-bottom:0; }
+        .tab-btn { background:none; border:none; padding:0.75rem 1.25rem; font-family:inherit; font-size:0.95rem; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
+        .tab-btn.active { color:var(--primary); border-bottom-color:var(--primary); font-weight:600; }
+        .tab-panel { display:none; } .tab-panel.active { display:block; }
+        .settings-row { display:flex; align-items:center; justify-content:space-between; padding:1rem 0; border-bottom:1px solid var(--border); }
+        .settings-row:last-child { border:none; }
+        .toggle { position:relative; display:inline-block; width:44px; height:24px; }
+        .toggle input { opacity:0; width:0; height:0; }
+        .slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background:#ccc; border-radius:24px; transition:0.3s; }
+        .slider:before { position:absolute; content:""; height:18px; width:18px; left:3px; bottom:3px; background:white; border-radius:50%; transition:0.3s; }
+        input:checked + .slider { background:var(--secondary); }
+        input:checked + .slider:before { transform:translateX(20px); }
+    </style>
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo"><i class="fas fa-graduation-cap"></i> EduFlow</a>
+            </div>
+            <div class="user-profile">
+                <div class="avatar"><i class="fas fa-user"></i></div>
+                <div class="user-info">
+                    <h4 id="dashboard-user-name">Student</h4>
+                    <p id="dashboard-user-major">Major</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="courses.html"><i class="fas fa-book"></i> Browse Courses</a></li>
+                    <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> My Schedule</a></li>
+                    <li><a href="transcripts.html"><i class="fas fa-file-invoice"></i> Transcripts</a></li>
+                    <li><a href="settings.html" class="active"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="btn btn-outline btn-block"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-topbar">
+                <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div class="topbar-search"><i class="fas fa-search"></i><input type="text" placeholder="Search courses, professors..."></div>
+                <div class="topbar-actions">
+                    <button class="icon-btn"><i class="fas fa-bell"></i><span class="notification-badge"></span></button>
+                    <div class="avatar-sm"><i class="fas fa-user"></i></div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="dashboard-header">
+                    <h2><i class="fas fa-cog" style="color:var(--primary); margin-right:0.5rem;"></i>Settings</h2>
+                    <p>Manage your profile, notifications, and account preferences.</p>
+                </div>
+
+                <div class="glass-card" style="padding:1.5rem;">
+                    <div class="settings-tabs">
+                        <button class="tab-btn active" onclick="showTab('profile')">Profile</button>
+                        <button class="tab-btn" onclick="showTab('notifications')">Notifications</button>
+                        <button class="tab-btn" onclick="showTab('security')">Security</button>
+                    </div>
+
+                    <!-- Profile Tab -->
+                    <div class="tab-panel active" id="tab-profile">
+                        <div style="display:flex; align-items:center; gap:1.5rem; margin-bottom:2rem;">
+                            <div class="avatar" style="width:72px;height:72px;font-size:1.8rem;"><i class="fas fa-user"></i></div>
+                            <div>
+                                <h4 id="profile-name">—</h4>
+                                <p style="color:var(--text-muted); font-size:0.9rem;" id="profile-email">—</p>
+                            </div>
+                        </div>
+                        <form class="custom-form" onsubmit="saveProfile(event)">
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                                <div class="form-group"><label>First Name</label><input type="text" id="s-first" placeholder="First name"></div>
+                                <div class="form-group"><label>Last Name</label><input type="text" id="s-last" placeholder="Last name"></div>
+                            </div>
+                            <div class="form-group"><label>Email Address</label><input type="email" id="s-email" placeholder="your@email.com" disabled style="opacity:0.6;"></div>
+                            <div class="form-group">
+                                <label>Major / Program</label>
+                                <select id="s-major">
+                                    <option>Computer Science</option>
+                                    <option>Electrical Engineering</option>
+                                    <option>Mathematics</option>
+                                    <option>Business Administration</option>
+                                    <option>Physics</option>
+                                    <option>Arts & Humanities</option>
+                                    <option>Undeclared</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+                        </form>
+                    </div>
+
+                    <!-- Notifications Tab -->
+                    <div class="tab-panel" id="tab-notifications">
+                        <h4 style="margin-bottom:1.5rem;">Email Notifications</h4>
+                        <div class="settings-row">
+                            <div><strong>Enrollment Confirmations</strong><p style="color:var(--text-muted);font-size:0.85rem;">Receive an email when you enroll in a course</p></div>
+                            <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="settings-row">
+                            <div><strong>Waitlist Updates</strong><p style="color:var(--text-muted);font-size:0.85rem;">Be notified when a seat opens in a waitlisted course</p></div>
+                            <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="settings-row">
+                            <div><strong>Schedule Changes</strong><p style="color:var(--text-muted);font-size:0.85rem;">Alerts for time or room changes in your enrolled courses</p></div>
+                            <label class="toggle"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="settings-row">
+                            <div><strong>Academic Announcements</strong><p style="color:var(--text-muted);font-size:0.85rem;">News from your professors and department</p></div>
+                            <label class="toggle"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <button class="btn btn-primary" style="margin-top:1.5rem;" onclick="alert('Notification preferences saved!')"><i class="fas fa-save"></i> Save Preferences</button>
+                    </div>
+
+                    <!-- Security Tab -->
+                    <div class="tab-panel" id="tab-security">
+                        <h4 style="margin-bottom:1.5rem;">Change Password</h4>
+                        <form class="custom-form" onsubmit="changePassword(event)">
+                            <div class="form-group"><label>Current Password</label><input type="password" id="s-cur-pass" placeholder="Enter current password"></div>
+                            <div class="form-group"><label>New Password</label><input type="password" id="s-new-pass" placeholder="At least 8 characters"></div>
+                            <div class="form-group"><label>Confirm New Password</label><input type="password" id="s-conf-pass" placeholder="Repeat new password"></div>
+                            <div id="pass-msg"></div>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-lock"></i> Update Password</button>
+                        </form>
+                        <hr style="margin:2rem 0; border-color:var(--border);">
+                        <h4 style="color:var(--danger);">Danger Zone</h4>
+                        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.5rem 0 1rem;">Logging out will clear your session. You will need to log in again to access your account.</p>
+                        <button onclick="logout()" class="btn btn-outline" style="border-color:var(--danger); color:var(--danger);"><i class="fas fa-sign-out-alt"></i> Log Out of All Sessions</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('mobile-sidebar-toggle').addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        const token = localStorage.getItem('token');
+        const userStr = localStorage.getItem('user');
+        if (!token || !userStr) { window.location.href = 'login.html'; }
+        else {
+            const user = JSON.parse(userStr);
+            document.getElementById('dashboard-user-name').textContent = user.name;
+            document.getElementById('dashboard-user-major').textContent = user.major || 'Student';
+            document.getElementById('profile-name').textContent = user.name;
+            document.getElementById('profile-email').textContent = user.email;
+            const [firstName, ...rest] = user.name.split(' ');
+            document.getElementById('s-first').value = firstName || '';
+            document.getElementById('s-last').value = rest.join(' ') || '';
+            document.getElementById('s-email').value = user.email || '';
+            const majorSel = document.getElementById('s-major');
+            if (user.major) {
+                for (let opt of majorSel.options) {
+                    if (opt.value === user.major || opt.text === user.major) { opt.selected = true; break; }
+                }
+            }
+        }
+
+        window.logout = function() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        };
+
+        function showTab(name) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + name).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function saveProfile(e) {
+            e.preventDefault();
+            const user = JSON.parse(localStorage.getItem('user'));
+            const major = document.getElementById('s-major').value;
+            user.major = major;
+            localStorage.setItem('user', JSON.stringify(user));
+            document.getElementById('dashboard-user-major').textContent = major;
+            alert('Profile updated successfully!');
+        }
+
+        function changePassword(e) {
+            e.preventDefault();
+            const np = document.getElementById('s-new-pass').value;
+            const cp = document.getElementById('s-conf-pass').value;
+            const msgEl = document.getElementById('pass-msg');
+            if (np.length < 8) { msgEl.innerHTML = '<p style="color:var(--danger)">New password must be at least 8 characters.</p>'; return; }
+            if (np !== cp) { msgEl.innerHTML = '<p style="color:var(--danger)">Passwords do not match.</p>'; return; }
+            msgEl.innerHTML = '<p style="color:var(--secondary)"><i class="fas fa-check"></i> Password updated successfully!</p>';
+        }
+    </script>
+</body>
+</html>

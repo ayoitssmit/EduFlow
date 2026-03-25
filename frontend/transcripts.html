@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcripts | EduFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo"><i class="fas fa-graduation-cap"></i> EduFlow</a>
+            </div>
+            <div class="user-profile">
+                <div class="avatar"><i class="fas fa-user"></i></div>
+                <div class="user-info">
+                    <h4 id="dashboard-user-name">Student</h4>
+                    <p id="dashboard-user-major">Major</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="courses.html"><i class="fas fa-book"></i> Browse Courses</a></li>
+                    <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> My Schedule</a></li>
+                    <li><a href="transcripts.html" class="active"><i class="fas fa-file-invoice"></i> Transcripts</a></li>
+                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="btn btn-outline btn-block"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-topbar">
+                <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div class="topbar-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search courses, professors...">
+                </div>
+                <div class="topbar-actions">
+                    <button class="icon-btn"><i class="fas fa-bell"></i><span class="notification-badge"></span></button>
+                    <div class="avatar-sm"><i class="fas fa-user"></i></div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="dashboard-header" style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+                    <div>
+                        <h2><i class="fas fa-file-invoice" style="color:var(--secondary); margin-right:0.5rem;"></i>Transcripts</h2>
+                        <p>Official academic record — Fall 2026.</p>
+                    </div>
+                    <button onclick="window.print()" class="btn btn-outline"><i class="fas fa-print"></i> Print Transcript</button>
+                </div>
+
+                <!-- Student Info Card -->
+                <div class="glass-card" style="padding:1.5rem; margin-bottom:1.5rem;">
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:1rem;">
+                        <div><p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:0.25rem;">STUDENT NAME</p><strong id="tr-name">—</strong></div>
+                        <div><p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:0.25rem;">EMAIL</p><strong id="tr-email">—</strong></div>
+                        <div><p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:0.25rem;">MAJOR</p><strong id="tr-major">—</strong></div>
+                        <div><p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:0.25rem;">STATUS</p><strong style="color:var(--secondary)">Active Student</strong></div>
+                    </div>
+                </div>
+
+                <!-- Term Table -->
+                <div class="dashboard-table-section glass-card">
+                    <div class="section-header">
+                        <h3>Fall 2026 — Current Enrollment</h3>
+                        <span id="tr-credits-badge" class="badge badge-indigo">0 Credits</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Title</th>
+                                    <th>Professor</th>
+                                    <th>Schedule</th>
+                                    <th>Credits</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transcripts-tbody">
+                                <tr><td colspan="6" style="text-align:center;"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="padding:1rem 1.5rem; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:2rem;">
+                        <span style="color:var(--text-muted); font-size:0.9rem;">Total Enrolled Credits</span>
+                        <strong id="tr-total-credits">0</strong>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        document.getElementById('mobile-sidebar-toggle').addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        const token = localStorage.getItem('token');
+        const userStr = localStorage.getItem('user');
+        if (!token || !userStr) { window.location.href = 'login.html'; }
+        else {
+            const user = JSON.parse(userStr);
+            document.getElementById('dashboard-user-name').textContent = user.name;
+            document.getElementById('dashboard-user-major').textContent = user.major || 'Student';
+            document.getElementById('tr-name').textContent = user.name;
+            document.getElementById('tr-email').textContent = user.email;
+            document.getElementById('tr-major').textContent = user.major || 'Undeclared';
+        }
+
+        window.logout = function() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        };
+
+        async function loadTranscript() {
+            const tbody = document.getElementById('transcripts-tbody');
+            try {
+                const courses = await window.API.get('/api/user/enrollments');
+                tbody.innerHTML = '';
+
+                if (courses.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">No courses enrolled yet. <a href="courses.html" style="color:var(--primary)">Browse Catalog</a></td></tr>`;
+                    return;
+                }
+
+                let total = 0;
+                courses.forEach(c => {
+                    total += c.credits;
+                    tbody.insertAdjacentHTML('beforeend', `
+                        <tr>
+                            <td><span class="badge ${c.colorClass}">${c.code}</span></td>
+                            <td>${c.title}</td>
+                            <td>${c.prof}</td>
+                            <td>${c.time}</td>
+                            <td>${c.credits}</td>
+                            <td><span style="color:var(--text-muted); font-style:italic;">In Progress</span></td>
+                        </tr>
+                    `);
+                });
+
+                document.getElementById('tr-total-credits').textContent = total;
+                document.getElementById('tr-credits-badge').textContent = `${total} Credits`;
+            } catch(e) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--danger);">Failed to load transcript. Is the backend running?</td></tr>`;
+            }
+        }
+
+        loadTranscript();
+    </script>
+</body>
+</html>

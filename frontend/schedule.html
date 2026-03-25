@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Schedule | EduFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .schedule-grid { display: grid; grid-template-columns: 80px repeat(5, 1fr); gap: 1px; background: var(--border); border-radius: 0.75rem; overflow: hidden; }
+        .schedule-header { background: var(--bg-card); padding: 0.75rem; text-align: center; font-weight: 600; color: var(--text-muted); font-size: 0.85rem; }
+        .schedule-time { background: var(--bg-card); padding: 0.75rem 0.5rem; text-align: right; font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; justify-content: flex-end; }
+        .schedule-cell { background: var(--bg-card); min-height: 56px; padding: 4px; position: relative; }
+        .schedule-event { border-radius: 0.4rem; padding: 0.4rem 0.6rem; font-size: 0.72rem; font-weight: 600; line-height: 1.3; cursor: default; }
+        .event-cs { background: rgba(71,133,89,0.2); border-left: 3px solid var(--secondary); color: var(--secondary); }
+        .event-math { background: rgba(57,160,202,0.2); border-left: 3px solid var(--accent); color: var(--accent); }
+        .event-eng { background: rgba(249,93,155,0.2); border-left: 3px solid var(--primary); color: var(--primary); }
+        .event-other { background: rgba(22,23,72,0.1); border-left: 3px solid #6b7280; color: #374151; }
+    </style>
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo"><i class="fas fa-graduation-cap"></i> EduFlow</a>
+            </div>
+            <div class="user-profile">
+                <div class="avatar"><i class="fas fa-user"></i></div>
+                <div class="user-info">
+                    <h4 id="dashboard-user-name">Student</h4>
+                    <p id="dashboard-user-major">Major</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="courses.html"><i class="fas fa-book"></i> Browse Courses</a></li>
+                    <li><a href="schedule.html" class="active"><i class="fas fa-calendar-alt"></i> My Schedule</a></li>
+                    <li><a href="transcripts.html"><i class="fas fa-file-invoice"></i> Transcripts</a></li>
+                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="btn btn-outline btn-block"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-topbar">
+                <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div class="topbar-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search courses, professors...">
+                </div>
+                <div class="topbar-actions">
+                    <button class="icon-btn"><i class="fas fa-bell"></i><span class="notification-badge"></span></button>
+                    <div class="avatar-sm"><i class="fas fa-user"></i></div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="dashboard-header">
+                    <h2><i class="fas fa-calendar-alt" style="color:var(--accent); margin-right:0.5rem;"></i>My Weekly Schedule</h2>
+                    <p>Fall 2026 — Your enrolled course timetable.</p>
+                </div>
+
+                <div class="glass-card" style="padding:1.5rem; overflow-x:auto;">
+                    <div id="schedule-container">
+                        <div style="text-align:center; padding:3rem; color:var(--text-muted);">
+                            <i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary)"></i>
+                            <p style="margin-top:1rem;">Building your schedule...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card mt-6" style="padding:1.5rem;">
+                    <h3 style="margin-bottom:1rem;">Legend</h3>
+                    <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+                        <span class="schedule-event event-cs" style="border-radius:0.4rem; padding:0.3rem 0.8rem;">Computer Science</span>
+                        <span class="schedule-event event-math" style="border-radius:0.4rem; padding:0.3rem 0.8rem;">Mathematics / Science</span>
+                        <span class="schedule-event event-eng" style="border-radius:0.4rem; padding:0.3rem 0.8rem;">Engineering</span>
+                        <span class="schedule-event event-other" style="border-radius:0.4rem; padding:0.3rem 0.8rem;">Other</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        document.getElementById('mobile-sidebar-toggle').addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        const token = localStorage.getItem('token');
+        const userStr = localStorage.getItem('user');
+        if (!token || !userStr) { window.location.href = 'login.html'; }
+        else {
+            const user = JSON.parse(userStr);
+            document.getElementById('dashboard-user-name').textContent = user.name;
+            document.getElementById('dashboard-user-major').textContent = user.major || 'Student';
+        }
+
+        window.logout = function() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        };
+
+        // Day and time helpers
+        const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        const HOURS = ['8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM'];
+
+        function getEventClass(code) {
+            if (code.startsWith('CS')) return 'event-cs';
+            if (code.startsWith('MATH') || code.startsWith('PHY')) return 'event-math';
+            if (code.startsWith('ENG')) return 'event-eng';
+            return 'event-other';
+        }
+
+        function parseScheduleToDays(timeStr) {
+            const days = [];
+            if (timeStr.includes('MWF')) days.push(0, 2, 4);
+            else if (timeStr.includes('MW')) days.push(0, 2);
+            else if (timeStr.includes('TTh')) days.push(1, 3);
+            else if (timeStr.includes('TTH')) days.push(1, 3);
+            return days;
+        }
+
+        function extractHour(timeStr) {
+            const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
+            if (!match) return -1;
+            let h = parseInt(match[1]);
+            const m = match[2];
+            const ampm = match[3].toUpperCase();
+            if (ampm === 'PM' && h !== 12) h += 12;
+            if (ampm === 'AM' && h === 12) h = 0;
+            return h;
+        }
+
+        async function buildSchedule() {
+            try {
+                const courses = await window.API.get('/api/user/enrollments');
+                const container = document.getElementById('schedule-container');
+
+                if (courses.length === 0) {
+                    container.innerHTML = `<div style="text-align:center; padding:3rem; color:var(--text-muted);"><i class="fas fa-calendar-times fa-3x" style="margin-bottom:1rem; opacity:0.4;"></i><p>No courses enrolled yet. <a href="courses.html" style="color:var(--primary)">Browse Catalog</a></p></div>`;
+                    return;
+                }
+
+                // Build grid
+                let html = `<div class="schedule-grid">
+                    <div class="schedule-header"></div>
+                    ${DAYS.map(d => `<div class="schedule-header">${d}</div>`).join('')}`;
+
+                HOURS.forEach(hour => {
+                    const h = extractHour(hour);
+                    html += `<div class="schedule-time">${hour}</div>`;
+                    DAYS.forEach((_, dayIdx) => {
+                        const match = courses.find(c => {
+                            const courseDays = parseScheduleToDays(c.time);
+                            const courseH = extractHour(c.time);
+                            return courseDays.includes(dayIdx) && courseH === h;
+                        });
+                        if (match) {
+                            const cls = getEventClass(match.code);
+                            html += `<div class="schedule-cell"><div class="schedule-event ${cls}">${match.code}<br>${match.title.split(' ').slice(0,3).join(' ')}</div></div>`;
+                        } else {
+                            html += `<div class="schedule-cell"></div>`;
+                        }
+                    });
+                });
+
+                html += '</div>';
+                container.innerHTML = html;
+            } catch (e) {
+                document.getElementById('schedule-container').innerHTML = `<p style="color:var(--danger); text-align:center;">Failed to load schedule. Is the backend running?</p>`;
+            }
+        }
+
+        buildSchedule();
+    </script>
+</body>
+</html>
