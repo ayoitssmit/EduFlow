@@ -17,25 +17,39 @@ This project is being developed in three primary phases:
 *   **Dynamic Course Catalog:** The `courses.html` grid dynamically fetches and renders a list of JSON course objects using the Fetch API.
 *   **Fetch Utility:** A custom `api.js` file handles asynchronous mock server requests and responses.
 
-## How to Run the Project (Locally)
+## How to Run the Project (Locally with Backend)
 
-Since the project is currently in its static frontend and mock-API stage, you do not need Node.js or a database yet.
+Phase 3 requires a running MongoDB database and Node.js.
 
-1. **Option 1: Live Server (Recommended)**
-   - Open the directory in **VS Code**.
-   - Install the **Live Server** extension.
-   - Right-click on `frontend/index.html` and click **"Open with Live Server"**.
+1. **Start MongoDB**: Ensure you have MongoDB running locally on port `27017`.
+2. **Install Dependencies**: Open a terminal in the project root and run:
+   ```bash
+   npm install
+   ```
+3. **Start the Backend Server**:
+   ```bash
+   node backend/server.js
+   ```
+   *The server will start on `http://localhost:5000` and automatically seed the database with courses on the first load.*
+4. **Run the Frontend**:
+   - Open `frontend/index.html` with **Live Server** in VS Code, OR
+   - Run `npx serve frontend` in a separate terminal.
 
-2. **Option 2: Using Node `serve`**
-   - If you have Node.js installed, open terminal and run:
-     ```bash
-     npx serve frontend
-     ```
-
-## Project Structure (Frontend Scope)
+## Project Structure (Full Stack)
 
 ```
-frontend/
+/
+├── backend/
+│   ├── config/
+│   │   └── db.js         # Mongoose DB Connection
+│   ├── models/
+│   │   ├── Course.js     # Course Schema
+│   │   └── User.js       # User Schema
+│   ├── routes/
+│   │   ├── authRoutes.js # Login/Register logic
+│   │   └── courseRoutes.js # Course fetching & seeding
+│   └── server.js         # Express Server Entry
+├── frontend/
 │
 ├── index.html        # Landing page
 ├── register.html     # Registration form
