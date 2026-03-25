@@ -14,11 +14,10 @@
             <a href="index.html" class="logo"><i class="fas fa-graduation-cap"></i> EduFlow</a>
             <button class="mobile-toggle" id="mobile-toggle"><i class="fas fa-bars"></i></button>
             <nav class="nav-menu" id="nav-menu">
-                <ul class="nav-list">
+                <ul class="nav-list" id="nav-list-courses">
                     <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="courses.html" class="nav-link active">Courses</a></li>
-                    <li class="nav-item"><a href="login.html" class="btn btn-outline">Log In</a></li>
-                    <li class="nav-item"><a href="register.html" class="btn btn-primary">Register</a></li>
+                    <!-- JS will inject Dashboard/Logout or Login/Register dynamically -->
                 </ul>
             </nav>
         </div>
@@ -35,32 +34,45 @@
         <div class="container courses-container">
             <aside class="filters-sidebar">
                 <div class="glass-card pd-4">
-                    <h3>Filters</h3>
-                    <div class="form-group mt-4">
-                        <label>Search</label>
-                        <input type="text" placeholder="Search by title or code...">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                        <h3>Filters</h3>
+                        <button id="reset-filters" class="btn btn-sm" style="font-size:0.8rem; padding:4px 10px; border:1px solid var(--border); color:var(--text-muted);">Reset</button>
                     </div>
                     <div class="form-group">
-                        <label>Department</label>
-                        <select>
+                        <label for="filter-search"><i class="fas fa-search" style="margin-right:5px;"></i>Search</label>
+                        <input type="text" id="filter-search" placeholder="Course name or code..." style="width:100%; padding:0.6rem 1rem; border:1px solid var(--border); border-radius:0.5rem; font-family:inherit;">
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-dept"><i class="fas fa-building" style="margin-right:5px;"></i>Department</label>
+                        <select id="filter-dept" style="width:100%; padding:0.6rem 1rem; border:1px solid var(--border); border-radius:0.5rem; font-family:inherit;">
                             <option value="">All Departments</option>
                             <option value="CS">Computer Science</option>
                             <option value="ENG">Engineering</option>
                             <option value="MATH">Mathematics</option>
                             <option value="PHY">Physics</option>
+                            <option value="ART">Arts & Humanities</option>
+                            <option value="BUS">Business</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Level</label>
-                        <select>
-                            <option value="">All Levels</option>
-                            <option value="100">100 - Freshman</option>
-                            <option value="200">200 - Sophomore</option>
-                            <option value="300">300 - Junior</option>
-                            <option value="400">400 - Senior</option>
+                        <label for="filter-status"><i class="fas fa-chair" style="margin-right:5px;"></i>Availability</label>
+                        <select id="filter-status" style="width:100%; padding:0.6rem 1rem; border:1px solid var(--border); border-radius:0.5rem; font-family:inherit;">
+                            <option value="">All</option>
+                            <option value="Available">Available</option>
+                            <option value="Warning">Almost Full</option>
+                            <option value="Full">Full / Waitlist</option>
                         </select>
                     </div>
-                    <button class="btn btn-outline btn-block mt-4">Apply Filters</button>
+                    <div class="form-group">
+                        <label for="filter-credits"><i class="fas fa-star" style="margin-right:5px;"></i>Credits</label>
+                        <select id="filter-credits" style="width:100%; padding:0.6rem 1rem; border:1px solid var(--border); border-radius:0.5rem; font-family:inherit;">
+                            <option value="">Any Credits</option>
+                            <option value="2">2 Credits</option>
+                            <option value="3">3 Credits</option>
+                            <option value="4">4 Credits</option>
+                        </select>
+                    </div>
+                    <div id="filter-count" style="font-size:0.85rem; color:var(--text-muted); margin-top:0.5rem; text-align:center;"></div>
                 </div>
             </aside>
             
