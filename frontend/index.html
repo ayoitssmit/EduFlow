@@ -3,120 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="EduFlow - A modern college student course registration system.">
-    <title>EduFlow | College Course Registration</title>
+    <title>EduFlow — Smart College Course Registration</title>
+    <meta name="description" content="Register, browse, and manage your college courses with the most modern student portal. Built for the future of education.">
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============ LANDING PAGE SPECIFIC ============ */
+        :root {
+            --hero-bg: #0d0e2b;
+            --hero-surface: rgba(22,23,72,0.6);
+        }
+        body.landing { margin: 0; background: var(--hero-bg); color: #e4e4f0; overflow-x: hidden; }
+        body.landing * { box-sizing: border-box; }
+
+        /* AMBIENT BACKGROUND */
+        .ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .ambient-orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.35; animation: orbFloat 18s ease-in-out infinite alternate; }
+        .orb-1 { width: 600px; height: 600px; background: #f95d9b; top: -10%; left: -10%; }
+        .orb-2 { width: 500px; height: 500px; background: #39a0ca; top: 40%; right: -8%; animation-delay: -6s; }
+        .orb-3 { width: 450px; height: 450px; background: #478559; bottom: -5%; left: 30%; animation-delay: -12s; }
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -40px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+            100% { transform: translate(10px, -10px) scale(1.02); }
+        }
+
+        /* HEADER */
+        .landing-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; transition: all 0.4s cubic-bezier(0.22,1,0.36,1); }
+        .landing-nav.scrolled { background: rgba(13,14,43,0.75); backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: white; font-weight: 800; font-size: 1.35rem; }
+        .nav-logo i { color: #f95d9b; font-size: 1.4rem; }
+        .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: white; }
+        .nav-btn { padding: 0.5rem 1.25rem; border-radius: 0.6rem; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: all 0.3s; border: none; cursor: pointer; }
+        .btn-ghost-nav { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: white; }
+        .btn-ghost-nav:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.06); }
+        .btn-pink { background: #f95d9b; color: white; }
+        .btn-pink:hover { background: #e84e8a; transform: translateY(-1px); box-shadow: 0 8px 30px rgba(249,93,155,0.35); }
+
+        /* HERO */
+        .hero { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 8rem 2rem 4rem; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 0.75rem; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; padding: 0.4rem 0.5rem 0.4rem 1.25rem; font-size: 0.85rem; color: rgba(255,255,255,0.75); margin-bottom: 2rem; animation: fadeSlideUp 0.8s ease-out both; backdrop-filter: blur(10px); }
+        .hero-badge .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #478559; animation: pulse 2s ease infinite; }
+        .hero-badge .badge-arrow { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.1); transition: all 0.3s; }
+        .hero-badge:hover .badge-arrow { background: #f95d9b; transform: translateX(2px); }
+
+        .hero-title { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; max-width: 900px; margin: 0 0 1.5rem; background: linear-gradient(135deg, #ffffff 0%, #e0e0f5 40%, #f95d9b 70%, #39a0ca 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: fadeSlideUp 0.8s ease-out 0.2s both; }
+        .hero-subtitle { font-size: 1.15rem; line-height: 1.7; max-width: 600px; margin: 0 auto 2.5rem; color: rgba(255,255,255,0.55); font-weight: 400; animation: fadeSlideUp 0.8s ease-out 0.4s both; }
+        .hero-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.75rem; animation: fadeSlideUp 0.8s ease-out 0.6s both; }
+        .cta-primary { padding: 0.85rem 2rem; border-radius: 0.75rem; background: linear-gradient(135deg, #f95d9b, #e84e8a); color: white; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all 0.3s; border: none; cursor: pointer; box-shadow: 0 4px 20px rgba(249,93,155,0.3); }
+        .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(249,93,155,0.45); }
+        .cta-secondary { padding: 0.85rem 2rem; border-radius: 0.75rem; background: transparent; color: rgba(255,255,255,0.8); font-weight: 600; font-size: 1rem; text-decoration: none; border: 1px solid rgba(255,255,255,0.15); transition: all 0.3s; }
+        .cta-secondary:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.06); }
+
+        /* HERO APP PREVIEW */
+        .hero-preview { position: relative; max-width: 1000px; width: 100%; margin: 4rem auto 0; animation: fadeSlideUp 1s ease-out 0.8s both; }
+        .preview-glow { position: absolute; inset: -40px; background: radial-gradient(ellipse at center, rgba(249,93,155,0.15) 0%, rgba(57,160,202,0.1) 40%, transparent 70%); border-radius: 2rem; z-index: 0; filter: blur(40px); }
+        .preview-frame { position: relative; z-index: 1; background: rgba(22,23,72,0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 1rem; padding: 0.75rem; backdrop-filter: blur(20px); box-shadow: 0 25px 80px -20px rgba(0,0,0,0.5); }
+        .preview-titlebar { display: flex; align-items: center; gap: 6px; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; }
+        .tb-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .tb-red { background: #ff5f57; }
+        .tb-yellow { background: #ffbd2e; }
+        .tb-green { background: #28c840; }
+        .preview-body { background: linear-gradient(145deg, rgba(22,23,72,0.8), rgba(13,14,43,0.9)); border-radius: 0.6rem; padding: 2rem; min-height: 320px; display: grid; grid-template-columns: 230px 1fr; gap: 1.5rem; }
+        .preview-sidebar { display: flex; flex-direction: column; gap: 0.5rem; }
+        .prev-sidebar-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.75rem; border-radius: 0.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.5); transition: all 0.2s; }
+        .prev-sidebar-item.active { background: rgba(249,93,155,0.15); color: #f95d9b; }
+        .prev-sidebar-item i { width: 16px; text-align: center; }
+        .preview-main { display: flex; flex-direction: column; gap: 1rem; }
+        .prev-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+        .prev-stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 0.6rem; padding: 1rem; }
+        .prev-stat h4 { font-size: 1.5rem; font-weight: 800; margin: 0 0 0.25rem; }
+        .prev-stat p { font-size: 0.7rem; color: rgba(255,255,255,0.4); margin: 0; }
+        .prev-stat:nth-child(1) h4 { color: #39a0ca; }
+        .prev-stat:nth-child(2) h4 { color: #478559; }
+        .prev-stat:nth-child(3) h4 { color: #f95d9b; }
+        .prev-table { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 0.6rem; flex: 1; padding: 1rem; }
+        .prev-table-header { display: grid; grid-template-columns: 1fr 2fr 1fr 1fr; font-size: 0.7rem; color: rgba(255,255,255,0.35); padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+        .prev-table-row { display: grid; grid-template-columns: 1fr 2fr 1fr 1fr; font-size: 0.78rem; color: rgba(255,255,255,0.65); padding: 0.4rem 0; align-items: center; }
+        .prev-table-row .code { color: #39a0ca; font-weight: 700; font-size: 0.72rem; }
+        .prev-table-row .badge-sm { font-size: 0.65rem; padding: 2px 8px; border-radius: 100px; font-weight: 600; }
+        .badge-avail { background: rgba(71,133,89,0.2); color: #5eca7d; }
+        .badge-full { background: rgba(249,93,155,0.15); color: #f95d9b; }
+        .hero-fade-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 200px; background: linear-gradient(to top, var(--hero-bg), transparent); z-index: 2; pointer-events: none; }
+
+        /* FEATURES SECTION */
+        .features-section { position: relative; z-index: 1; padding: 5rem 2rem 6rem; background: var(--hero-bg); }
+        .section-label { display: inline-flex; align-items: center; gap: 0.5rem; color: #f95d9b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+        .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; color: white; max-width: 650px; margin: 0 0 1rem; line-height: 1.2; }
+        .section-desc { color: rgba(255,255,255,0.5); font-size: 1.05rem; max-width: 550px; margin: 0 0 3rem; line-height: 1.7; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+        .feature-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 1rem; padding: 2rem; transition: all 0.4s cubic-bezier(0.22,1,0.36,1); position: relative; overflow: hidden; }
+        .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--fc-accent), transparent); opacity: 0; transition: opacity 0.4s; }
+        .feature-card:hover { background: rgba(255,255,255,0.06); transform: translateY(-4px); border-color: rgba(255,255,255,0.1); }
+        .feature-card:hover::before { opacity: 1; }
+        .fc-icon { width: 48px; height: 48px; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1.25rem; }
+        .fc-icon-pink { background: rgba(249,93,155,0.15); color: #f95d9b; --fc-accent: #f95d9b; }
+        .fc-icon-blue { background: rgba(57,160,202,0.15); color: #39a0ca; --fc-accent: #39a0ca; }
+        .fc-icon-green { background: rgba(71,133,89,0.15); color: #5eca7d; --fc-accent: #478559; }
+        .fc-icon-purple { background: rgba(139,92,246,0.15); color: #a78bfa; --fc-accent: #8b5cf6; }
+        .fc-icon-orange { background: rgba(251,146,60,0.15); color: #fb923c; --fc-accent: #f97316; }
+        .fc-icon-teal { background: rgba(20,184,166,0.15); color: #2dd4bf; --fc-accent: #14b8a6; }
+        .feature-card { --fc-accent: #f95d9b; }
+        .feature-card h3 { font-size: 1.1rem; font-weight: 700; color: white; margin: 0 0 0.5rem; }
+        .feature-card p { font-size: 0.88rem; line-height: 1.65; color: rgba(255,255,255,0.45); margin: 0; }
+
+        /* STATS BANNER */
+        .stats-banner { position: relative; z-index: 1; padding: 4rem 2rem; background: var(--hero-bg); }
+        .stats-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+        .stat-item h3 { font-size: 2.5rem; font-weight: 900; margin: 0; background: linear-gradient(135deg, #f95d9b, #39a0ca); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-item p { color: rgba(255,255,255,0.45); font-size: 0.85rem; margin: 0.25rem 0 0; font-weight: 500; }
+
+        /* CTA SECTION */
+        .cta-section { position: relative; z-index: 1; padding: 6rem 2rem; text-align: center; background: var(--hero-bg); }
+        .cta-card { max-width: 700px; margin: 0 auto; background: linear-gradient(145deg, rgba(249,93,155,0.1), rgba(57,160,202,0.1)); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.5rem; padding: 4rem 3rem; position: relative; overflow: hidden; }
+        .cta-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 0%, rgba(249,93,155,0.12), transparent 60%); pointer-events: none; }
+        .cta-card h2 { font-size: 2rem; font-weight: 800; color: white; margin: 0 0 1rem; }
+        .cta-card p { color: rgba(255,255,255,0.55); margin: 0 0 2rem; font-size: 1rem; }
+
+        /* FOOTER */
+        .landing-footer { position: relative; z-index: 1; padding: 3rem 2rem 2rem; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .footer-copy { color: rgba(255,255,255,0.35); font-size: 0.8rem; }
+        .footer-links { display: flex; gap: 1.5rem; }
+        .footer-links a { color: rgba(255,255,255,0.4); font-size: 0.8rem; text-decoration: none; transition: color 0.2s; }
+        .footer-links a:hover { color: white; }
+
+        /* ANIMATIONS */
+        @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(24px); filter: blur(6px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .preview-body { grid-template-columns: 1fr; }
+            .preview-sidebar { display: none; }
+            .prev-stat-grid { grid-template-columns: 1fr; }
+            .stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .cta-card { padding: 2.5rem 1.5rem; }
+        }
+    </style>
 </head>
-<body>
-    <header class="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <i class="fas fa-graduation-cap"></i> EduFlow
-            </a>
-            <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <nav class="nav-menu" id="nav-menu">
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
-                    <li class="nav-item"><a href="courses.html" class="nav-link">Courses</a></li>
-                    <li class="nav-item"><a href="login.html" class="btn btn-outline">Log In</a></li>
-                    <li class="nav-item"><a href="register.html" class="btn btn-primary">Register</a></li>
-                </ul>
-            </nav>
+<body class="landing">
+
+    <!-- Ambient Orbs -->
+    <div class="ambient">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="landing-nav" id="landing-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo"><i class="fas fa-graduation-cap"></i> EduFlow</a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="#stats">About</a></li>
+            </ul>
+            <div style="display:flex; gap:0.5rem;">
+                <a href="login.html" class="nav-btn btn-ghost-nav">Log In</a>
+                <a href="register.html" class="nav-btn btn-pink">Get Started</a>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main>
-        <section class="hero-section">
-            <div class="container hero-container">
-                <div class="hero-content">
-                    <h1 class="hero-title">Shaping Your <span class="text-gradient">Future</span> Starts Here.</h1>
-                    <p class="hero-subtitle">Experience a seamless and intuitive course registration process. Join EduFlow to explore available classes, plan your semesters, and enroll effortlessly.</p>
-                    <div class="hero-actions">
-                        <a href="courses.html" class="btn btn-primary btn-lg">Explore Courses <i class="fas fa-arrow-right"></i></a>
-                        <a href="register.html" class="btn btn-outline btn-lg">Join Now</a>
-                    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span>Now with 24 courses across 6 departments</span>
+            <span class="badge-arrow"><i class="fas fa-arrow-right" style="font-size:0.65rem;"></i></span>
+        </div>
+
+        <h1 class="hero-title">Your Academic Journey, Reimagined.</h1>
+        <p class="hero-subtitle">Browse courses, enroll instantly, track your schedule — all in one modern student portal. Built for the next generation of learners.</p>
+
+        <div class="hero-cta">
+            <a href="register.html" class="cta-primary"><i class="fas fa-rocket" style="margin-right:0.4rem;"></i> Create Account</a>
+            <a href="courses.html" class="cta-secondary"><i class="fas fa-compass" style="margin-right:0.4rem;"></i> Browse Courses</a>
+        </div>
+
+        <!-- App Preview Mockup -->
+        <div class="hero-preview">
+            <div class="preview-glow"></div>
+            <div class="preview-frame">
+                <div class="preview-titlebar">
+                    <span class="tb-dot tb-red"></span>
+                    <span class="tb-dot tb-yellow"></span>
+                    <span class="tb-dot tb-green"></span>
+                    <span style="flex:1; text-align:center; font-size:0.7rem; color:rgba(255,255,255,0.25);">dashboard.eduflow.edu</span>
                 </div>
-                <div class="hero-image">
-                    <div class="glass-card">
-                        <div class="card-header">
-                            <h3>Popular Courses</h3>
-                            <span class="badge">Trending</span>
+                <div class="preview-body">
+                    <div class="preview-sidebar">
+                        <div class="prev-sidebar-item active"><i class="fas fa-home"></i> Dashboard</div>
+                        <div class="prev-sidebar-item"><i class="fas fa-book"></i> Courses</div>
+                        <div class="prev-sidebar-item"><i class="fas fa-calendar-alt"></i> Schedule</div>
+                        <div class="prev-sidebar-item"><i class="fas fa-file-invoice"></i> Transcripts</div>
+                        <div class="prev-sidebar-item"><i class="fas fa-cog"></i> Settings</div>
+                    </div>
+                    <div class="preview-main">
+                        <div class="prev-stat-grid">
+                            <div class="prev-stat"><h4>14</h4><p>Credits Enrolled</p></div>
+                            <div class="prev-stat"><h4>5</h4><p>Active Courses</p></div>
+                            <div class="prev-stat"><h4>3.8</h4><p>Current GPA</p></div>
                         </div>
-                        <ul class="fake-course-list">
-                            <li><i class="fas fa-laptop-code text-indigo"></i> Software Engineering</li>
-                            <li><i class="fas fa-database text-rose"></i> Database Systems</li>
-                            <li><i class="fas fa-network-wired text-cyan"></i> Computer Networks</li>
-                        </ul>
+                        <div class="prev-table">
+                            <div class="prev-table-header">
+                                <span>Code</span><span>Course Title</span><span>Credits</span><span>Status</span>
+                            </div>
+                            <div class="prev-table-row"><span class="code">CS101</span><span>Intro to Computer Science</span><span>3</span><span class="badge-sm badge-avail">Enrolled</span></div>
+                            <div class="prev-table-row"><span class="code">CS202</span><span>Data Structures & Algorithms</span><span>4</span><span class="badge-sm badge-avail">Enrolled</span></div>
+                            <div class="prev-table-row"><span class="code">MATH315</span><span>Linear Algebra</span><span>3</span><span class="badge-sm badge-avail">Enrolled</span></div>
+                            <div class="prev-table-row"><span class="code">CS410</span><span>Machine Learning</span><span>4</span><span class="badge-sm badge-full">Waitlist</span></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+        <div class="hero-fade-bottom"></div>
+    </section>
 
-        <section class="features-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Why Choose EduFlow?</h2>
-                    <p>We provide a top-notch platform designed specifically for our students to manage their academic journey.</p>
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div style="max-width:1100px; margin:0 auto;">
+            <div class="animate-on-scroll">
+                <div class="section-label"><i class="fas fa-sparkles"></i> Why EduFlow?</div>
+                <h2 class="section-title">Everything you need for course registration.</h2>
+                <p class="section-desc">A complete student portal with intelligent features designed to save you time and keep your academic life organized.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card animate-on-scroll" style="--fc-accent:#f95d9b;">
+                    <div class="fc-icon fc-icon-pink"><i class="fas fa-bolt"></i></div>
+                    <h3>Instant Enrollment</h3>
+                    <p>Enroll in courses with a single click. Our real-time system ensures you never miss a seat again.</p>
                 </div>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon bg-indigo-light">
-                            <i class="fas fa-book-open text-indigo"></i>
-                        </div>
-                        <h3>Diverse Catalog</h3>
-                        <p>Browse through hundreds of courses across various disciplines, tailored for your specific major and interests.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon bg-rose-light">
-                            <i class="fas fa-bolt text-rose"></i>
-                        </div>
-                        <h3>Fast Enrollment</h3>
-                        <p>Register for classes instantly with our real-time system. No long queues, no frustrating wait times.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon bg-cyan-light">
-                            <i class="fas fa-chart-line text-cyan"></i>
-                        </div>
-                        <h3>Track Progress</h3>
-                        <p>Monitor your enrolled courses, schedule, and academic progress all from an intuitive dashboard interface.</p>
-                    </div>
+                <div class="feature-card animate-on-scroll" style="--fc-accent:#39a0ca;">
+                    <div class="fc-icon fc-icon-blue"><i class="fas fa-filter"></i></div>
+                    <h3>Smart Filters</h3>
+                    <p>Search by department, credits, availability, and live keyword filtering to find your perfect courses.</p>
+                </div>
+                <div class="feature-card animate-on-scroll" style="--fc-accent:#478559;">
+                    <div class="fc-icon fc-icon-green"><i class="fas fa-shield-alt"></i></div>
+                    <h3>JWT Authentication</h3>
+                    <p>Industry-standard JSON Web Token security protects your student data and session integrity.</p>
+                </div>
+                <div class="feature-card animate-on-scroll" style="--fc-accent:#8b5cf6;">
+                    <div class="fc-icon fc-icon-purple"><i class="fas fa-calendar-check"></i></div>
+                    <h3>Visual Schedule</h3>
+                    <p>See your weekly timetable auto-generated from enrolled courses with color-coded department blocks.</p>
+                </div>
+                <div class="feature-card animate-on-scroll" style="--fc-accent:#f97316;">
+                    <div class="fc-icon fc-icon-orange"><i class="fas fa-database"></i></div>
+                    <h3>MongoDB Powered</h3>
+                    <p>Full CRUD operations backed by Mongoose ODM. Your enrollments, profiles, and courses persist reliably.</p>
+                </div>
+                <div class="feature-card animate-on-scroll" style="--fc-accent:#14b8a6;">
+                    <div class="fc-icon fc-icon-teal"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Fully Responsive</h3>
+                    <p>Access your dashboard and course catalog from any device — desktop, tablet, or mobile phone.</p>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <footer class="footer">
-        <div class="container footer-container">
-            <div class="footer-brand">
-                <a href="index.html" class="logo">
-                    <i class="fas fa-graduation-cap"></i> EduFlow
-                </a>
-                <p>Empowering students to achieve their academic goals through a streamlined registration experience.</p>
+    <!-- Stats Banner -->
+    <section class="stats-banner" id="stats">
+        <div class="stats-inner">
+            <div class="stat-item animate-on-scroll"><h3>24+</h3><p>Available Courses</p></div>
+            <div class="stat-item animate-on-scroll"><h3>6</h3><p>Departments</p></div>
+            <div class="stat-item animate-on-scroll"><h3>5</h3><p>REST API Endpoints</p></div>
+            <div class="stat-item animate-on-scroll"><h3>100%</h3><p>Open Source</p></div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card animate-on-scroll">
+            <h2>Ready to start your journey?</h2>
+            <p>Join EduFlow today and experience modern course registration. It takes less than 30 seconds.</p>
+            <div style="display:flex; justify-content:center; gap:0.75rem; flex-wrap:wrap;">
+                <a href="register.html" class="cta-primary"><i class="fas fa-user-plus" style="margin-right:0.4rem;"></i> Register Now</a>
+                <a href="login.html" class="cta-secondary"><i class="fas fa-sign-in-alt" style="margin-right:0.4rem;"></i> Log In</a>
             </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+        <div class="footer-inner">
+            <span class="footer-copy">© 2026 EduFlow. All rights reserved.</span>
             <div class="footer-links">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="courses.html">Courses</a></li>
-                    <li><a href="login.html">Log In</a></li>
-                    <li><a href="register.html">Register</a></li>
-                </ul>
+                <a href="courses.html">Courses</a>
+                <a href="register.html">Register</a>
+                <a href="login.html">Log In</a>
+                <a href="https://github.com/ayoitssmit/EduFlow" target="_blank"><i class="fab fa-github"></i> GitHub</a>
             </div>
-            <div class="footer-contact">
-                <h4>Contact Us</h4>
-                <p><i class="fas fa-envelope"></i> support@eduflow.edu</p>
-                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 EduFlow University. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script>
+        // Scrolled nav
+        window.addEventListener('scroll', () => {
+            document.getElementById('landing-nav').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
