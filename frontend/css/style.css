@@ -1,18 +1,18 @@
 /* === CSS VARIABLES & RESET === */
 :root {
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --primary-light: #e0e7ff;
+    --primary: #161748; /* Purple baseline */
+    --primary-hover: #0f1033;
+    --primary-light: #e8e8f2;
     
-    --secondary: #f43f5e;
-    --secondary-hover: #e11d48;
-    --secondary-light: #ffe4e6;
+    --secondary: #f95d9b; /* Pink highlight */
+    --secondary-hover: #e04685;
+    --secondary-light: #fdecf3;
     
-    --cyan: #06b6d4;
-    --cyan-light: #cffafe;
+    --cyan: #39a0ca; /* Bluewater lowlight */
+    --cyan-light: #e6f4fa;
     
-    --success: #10b981;
-    --success-light: #d1fae5;
+    --success: #478559; /* Green Treeline */
+    --success-light: #eaf2ed;
     
     --warning: #f59e0b;
     --warning-light: #fef3c7;

@@ -65,63 +65,15 @@
             </aside>
             
             <section class="courses-list">
-                <div class="courses-grid">
-                    <!-- Course Card 1 -->
-                    <div class="course-card glass-card">
-                        <div class="course-header">
-                            <span class="course-code badge">CS101</span>
-                            <span class="course-credits">3 Credits</span>
-                        </div>
-                        <h3 class="course-title">Introduction to Computer Science</h3>
-                        <p class="course-desc">Fundamental concepts of programming and computer architecture.</p>
-                        <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Dr. Alan Turing</span>
-                            <span><i class="fas fa-clock"></i> MWF 10:00 AM</span>
-                        </div>
-                        <div class="course-footer">
-                            <span class="seats text-success">45/50 Seats Available</span>
-                            <a href="login.html" class="btn btn-primary btn-sm">Enroll</a>
-                        </div>
-                    </div>
-                    <!-- Course Card 2 -->
-                    <div class="course-card glass-card">
-                        <div class="course-header">
-                            <span class="course-code badge">CS202</span>
-                            <span class="course-credits">4 Credits</span>
-                        </div>
-                        <h3 class="course-title">Data Structures and Algorithms</h3>
-                        <p class="course-desc">In-depth study of data storage mechanisms and algorithmic efficiency.</p>
-                        <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Dr. Grace Hopper</span>
-                            <span><i class="fas fa-clock"></i> TTh 1:00 PM</span>
-                        </div>
-                        <div class="course-footer">
-                            <span class="seats text-warning">2/40 Seats Available</span>
-                            <a href="login.html" class="btn btn-primary btn-sm">Enroll</a>
-                        </div>
-                    </div>
-                    <!-- Course Card 3 -->
-                    <div class="course-card glass-card">
-                        <div class="course-header">
-                            <span class="course-code badge">MATH210</span>
-                            <span class="course-credits">3 Credits</span>
-                        </div>
-                        <h3 class="course-title">Calculus II</h3>
-                        <p class="course-desc">Advanced calculus covering integration techniques and infinite series.</p>
-                        <div class="course-meta">
-                            <span><i class="fas fa-user-tie"></i> Prof. Leonhard</span>
-                            <span><i class="fas fa-clock"></i> MW 2:00 PM</span>
-                        </div>
-                        <div class="course-footer">
-                            <span class="seats text-danger">Waitlist</span>
-                            <a href="login.html" class="btn btn-outline btn-sm">Join Waitlist</a>
-                        </div>
-                    </div>
+                <div class="courses-grid" id="courses-grid">
+                    <!-- Dynamic content injected here via DOM API in courses.js -->
                 </div>
             </section>
         </div>
     </main>
 
     <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/courses.js"></script>
 </body>
 </html>
